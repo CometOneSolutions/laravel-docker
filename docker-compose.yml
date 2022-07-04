@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  nginx:
+  site:
     build:
       context: .
       dockerfile: nginx.dockerfile
@@ -9,14 +9,14 @@ services:
       - 80:80
     volumes:
       - ./src:/var/www/html
-    depends_on: 
+    depends_on:
       - mysql
       - php
   mysql:
     image: mariadb:10.5
     ports:
       - 3306:3306
-    environment: 
+    environment:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
@@ -59,6 +59,6 @@ services:
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    depends_on: 
+    depends_on:
       - mysql
     entrypoint: ["php", "/var/www/html/artisan"]

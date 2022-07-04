@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  nginx:
+  site:
     build:
       context: .
       dockerfile: nginx.prod.dockerfile
     ports:
       - 80:80
       - 443:443
-    depends_on: 
+    depends_on:
       - mysql
       - php
       - assets
