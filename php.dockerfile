@@ -20,4 +20,9 @@ RUN sed -i "s/group = www-data/group = laravel/g" /usr/local/etc/php-fpm.d/www.c
 
 RUN docker-php-ext-install pdo pdo_mysql
 
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions gd exif zip intl @composer
+
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
