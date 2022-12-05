@@ -10,3 +10,5 @@ yarn-error.log
 /src
 /mysql
 /certbot
+/openvpn-client
+/vpn-config
