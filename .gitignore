@@ -12,3 +12,4 @@ yarn-error.log
 /certbot
 /openvpn-client
 /vpn-config
+/nginx/*.pem
