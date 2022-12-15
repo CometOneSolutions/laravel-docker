@@ -26,6 +26,7 @@ services:
       MYSQL_ROOT_PASSWORD: secret
     volumes:
       - ./mysql:/var/lib/mysql
+
   php:
     build:
       context: .
@@ -35,6 +36,7 @@ services:
         - GID=${GID:-1000}
     volumes:
       - ./src:/var/www/html
+
   composer:
     build:
       context: .
@@ -46,12 +48,14 @@ services:
       - ./src:/var/www/html
     user: laravel
     working_dir: /var/www/html
+
   npm:
     image: node:current-alpine
     volumes:
       - ./src:/var/www/html
     entrypoint: ["npm"]
     working_dir: /var/www/html
+
   artisan:
     build:
       context: .
@@ -65,6 +69,7 @@ services:
     depends_on:
       - mysql
     entrypoint: ["php", "/var/www/html/artisan"]
+
   cron:
     build:
       context: .
@@ -72,6 +77,7 @@ services:
     container_name: cron
     volumes:
       - ./src:/var/www/html
+
   queue:
     stop_signal: SIGINT
     build:
@@ -86,17 +92,7 @@ services:
     depends_on:
       - mysql
     entrypoint: ["php", "/var/www/html/artisan", "queue:work", "-v", "--tries=3", "--timeout=300"]
-  # vpn:
-  #   container_name: vpn
-  #   image: dperson/openvpn-client:latestte
-  #   cap_add:
-  #     - net_admin
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /dev/net/tun:/dev/net/tun
-  #     - ./vpn-config:/vpn # You'll need to provide this
-  #   security_opt:
-  #     - label:disable
+
   openvpn-client:
     image: ghcr.io/wfg/openvpn-client
     container_name: openvpn-client
@@ -109,6 +105,18 @@ services:
     restart: unless-stopped
     networks:
       - default
+
+  # vpn:
+  #   container_name: vpn
+  #   image: dperson/openvpn-client:latestte
+  #   cap_add:
+  #     - net_admin
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /dev/net/tun:/dev/net/tun
+  #     - ./vpn-config:/vpn # You'll need to provide this
+  #   security_opt:
+  #     - label:disable
 
 networks:
   default:
