@@ -12,7 +12,6 @@ services:
       - mysql
       - php
       - assets
-    # command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   php:
     build:
@@ -26,14 +25,5 @@ services:
     image: node:current-alpine
     volumes:
       - ./src:/var/www/html
-      # - ./certbot/conf:/etc/letsencrypt
-      # - ./certbot/www:/var/www/certbot
     command: ["/bin/sh", "-c", "npm install && npm run production"]
     working_dir: /var/www/html
-
-  # certbot:
-  #   image: certbot/certbot
-  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-  #   volumes:
-  #     - ./certbot/conf:/etc/letsencrypt
-  #     - ./certbot/www:/var/www/certbot
