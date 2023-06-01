@@ -1,3 +1,12 @@
+- wkhtmltopdf not found
+  - https://github.com/Surnet/docker-wkhtmltopdf
+  - also change binary directory in snappy.php
+
+- Error response network not found
+  - docker system prune
+  - systemctl restart docker.service
+- permission append error storage log
+  - delete laravel.log in storage
 # The Docker Tutorial
 This is the source code behind the Laracasts series [The Docker Tutorial](https://laracasts.com/series/the-docker-tutorial), and features all of the files and code available in those videos. If any additions to the series are made, this code will be modified to include them!
 
