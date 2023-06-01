@@ -103,8 +103,8 @@ services:
     volumes:
       - ./openvpn-client:/data/vpn
     restart: unless-stopped
-    networks:
-      - default
+    # networks:
+    #   - default
 
   # vpn:
   #   container_name: vpn
@@ -118,5 +118,5 @@ services:
   #   security_opt:
   #     - label:disable
 
-networks:
-  default:
+# networks:
+#   default:
