@@ -1,3 +1,4 @@
+FROM surnet/alpine-wkhtmltopdf:3.16.2-0.12.6-small as wkhtmltopdf
 FROM php:8.1-fpm-alpine
 
 ARG UID
@@ -26,5 +27,31 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
     IPE_GD_WITHOUTAVIF=1 install-php-extensions gd exif zip intl @composer
 
 ADD opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+# Install dependencies for wkhtmltopdf
+RUN apk add --no-cache \
+    libstdc++ \
+    libx11 \
+    libxrender \
+    libxext \
+    libssl1.1 \
+    ca-certificates \
+    fontconfig \
+    freetype \
+    ttf-dejavu \
+    ttf-droid \
+    ttf-freefont \
+    ttf-liberation \
+    # more fonts
+    && apk add --no-cache --virtual .build-deps \
+    msttcorefonts-installer \
+    # Install microsoft fonts
+    && update-ms-fonts \
+    && fc-cache -f \
+    # Clean up when done
+    && rm -rf /tmp/* \
+    && apk del .build-deps
+
+COPY --from=wkhtmltopdf /bin/wkhtmltopdf /bin/wkhtmltopdf
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
